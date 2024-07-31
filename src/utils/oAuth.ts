@@ -134,22 +134,7 @@ export const caseAccountExist = async ({ user, res }: { user: UserDocument; res:
             res
       }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
       const { expireToken,expireCookie } = setCookieAuth(dataCookie)
-=======
-      const { expireToken, expireCookie } = setCookieAuth(dataCookie)
->>>>>>> 77389b1 (Fix bug api trong phần auth)
-=======
-<<<<<<< HEAD
-      const { expireToken, expireCookie } = setCookieAuth(dataCookie)
-=======
-      const { expireToken,expireCookie } = setCookieAuth(dataCookie)
->>>>>>> effc9bd (Thêm thời gian hết hạn token để check middlewares ở client)
-=======
-      const { expireToken,expireCookie } = setCookieAuth(dataCookie)
->>>>>>> effc9bd709197e600109bd44d046e7198402c8ce
->>>>>>> 221a1fe6068856c4044628949fe94ec144aef0e6
 
       const url_client = process.env.MODE === 'DEV' ? 'http://localhost:3000/oauth' : process.env.CLIENT_URL + '/oauth'
       const url_full = `${url_client}?refresh_token=${refresh_token}&access_token=${access_token}&code_verify_token=${code_verify_token}&expireToken=${expireToken}&client_id=${user._id}&expireCookie=${expireCookie}`
@@ -205,21 +190,6 @@ export const caseAccountNew = async ({
       const { expireToken ,expireCookie} = setCookieAuth(dataCookie)
       const url_client = process.env.MODE === 'DEV' ? 'http://localhost:3000/oauth' : process.env.CLIENT_URL + '/oauth'
       const url_full = `${url_client}?refresh_token=${refresh_token}&access_token=${access_token}&code_verify_token=${code_verify_token}&expireToken=${expireToken}&client_id=${create_user._id}&expireCookie=${expireCookie}`
-<<<<<<< HEAD
-<<<<<<< HEAD
-     
-=======
 
->>>>>>> 77389b1 (Fix bug api trong phần auth)
-=======
-<<<<<<< HEAD
-
-=======
-     
->>>>>>> effc9bd (Thêm thời gian hết hạn token để check middlewares ở client)
-=======
-     
->>>>>>> effc9bd709197e600109bd44d046e7198402c8ce
->>>>>>> 221a1fe6068856c4044628949fe94ec144aef0e6
       res.redirect(url_full)
 }

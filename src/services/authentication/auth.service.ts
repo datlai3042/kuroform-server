@@ -56,22 +56,7 @@ class AuthService {
             const { email, password } = req.body
             const { user } = await checkDataUser({ email, password })
 
-<<<<<<< HEAD
-<<<<<<< HEAD
             const { access_token, code_verify_token, expireToken, refresh_token , expireCookie} = await handleKeyAndCookie({ user, res })
-=======
-            const { access_token, code_verify_token, expireToken, refresh_token ,expireCookie} = await handleKeyAndCookie({ user, res })
->>>>>>> 77389b1 (Fix bug api trong phần auth)
-=======
-<<<<<<< HEAD
-            const { access_token, code_verify_token, expireToken, refresh_token ,expireCookie} = await handleKeyAndCookie({ user, res })
-=======
-            const { access_token, code_verify_token, expireToken, refresh_token , expireCookie} = await handleKeyAndCookie({ user, res })
->>>>>>> effc9bd (Thêm thời gian hết hạn token để check middlewares ở client)
-=======
-            const { access_token, code_verify_token, expireToken, refresh_token , expireCookie} = await handleKeyAndCookie({ user, res })
->>>>>>> effc9bd709197e600109bd44d046e7198402c8ce
->>>>>>> 221a1fe6068856c4044628949fe94ec144aef0e6
             await createANotification({ user_id: user?._id, type: 'System', core: { message: 'Chào mừng bạn quay trở lại' } })
 
             return {
@@ -80,7 +65,6 @@ class AuthService {
 expireCookie,
                   expireToken,
                   client_id: user._id,
-                  expireCookie
 
             }
       }
@@ -104,22 +88,7 @@ expireCookie,
             const { refresh_token } = req
             const { user } = req
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-            const { access_token, code_verify_token, expireToken, new_refresh_token , expireCookie} = await handleCookieAndKeyRefreshToken({
-=======
             const { access_token, code_verify_token, expireToken, new_refresh_token, expireCookie} = await handleCookieAndKeyRefreshToken({
->>>>>>> 77389b1 (Fix bug api trong phần auth)
-=======
-<<<<<<< HEAD
-            const { access_token, code_verify_token, expireToken, new_refresh_token, expireCookie} = await handleCookieAndKeyRefreshToken({
-=======
-            const { access_token, code_verify_token, expireToken, new_refresh_token , expireCookie} = await handleCookieAndKeyRefreshToken({
->>>>>>> effc9bd (Thêm thời gian hết hạn token để check middlewares ở client)
-=======
-            const { access_token, code_verify_token, expireToken, new_refresh_token , expireCookie} = await handleCookieAndKeyRefreshToken({
->>>>>>> effc9bd709197e600109bd44d046e7198402c8ce
->>>>>>> 221a1fe6068856c4044628949fe94ec144aef0e6
                   user: user as UserDocument,
                   refresh_token_used: refresh_token as string,
                   res
@@ -128,27 +97,8 @@ expireCookie,
                   user: omit(user?.toObject(), ['user_password']),
                   token: { access_token, refresh_token: new_refresh_token, code_verify_token },
                   expireToken,
-<<<<<<< HEAD
-<<<<<<< HEAD
-                  client_id: (user?._id as Types.ObjectId).toString(),
-                  expireCookie
-=======
 expireCookie,
                   client_id: (user?._id as Types.ObjectId).toString()
->>>>>>> 77389b1 (Fix bug api trong phần auth)
-=======
-<<<<<<< HEAD
-expireCookie,
-                  client_id: (user?._id as Types.ObjectId).toString()
-=======
-                  client_id: (user?._id as Types.ObjectId).toString(),
-                  expireCookie
->>>>>>> effc9bd (Thêm thời gian hết hạn token để check middlewares ở client)
-=======
-                  client_id: (user?._id as Types.ObjectId).toString(),
-                  expireCookie
->>>>>>> effc9bd709197e600109bd44d046e7198402c8ce
->>>>>>> 221a1fe6068856c4044628949fe94ec144aef0e6
             }
       }
 

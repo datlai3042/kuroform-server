@@ -33,29 +33,10 @@ export const handleCookieAndKeyRefreshToken = async ({ user, refresh_token_used,
             res
       }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
       const { expireToken , expireCookie} = setCookieAuth(dataCookie)
       return { expireToken, code_verify_token, access_token, new_refresh_token: refresh_token, expireCookie }
-=======
-      const { expireToken ,expireCookie} = setCookieAuth(dataCookie)
-      return { expireToken, code_verify_token, access_token, new_refresh_token: refresh_token,expireCookie }
->>>>>>> 77389b1 (Fix bug api trong phần auth)
-=======
-<<<<<<< HEAD
-      const { expireToken ,expireCookie} = setCookieAuth(dataCookie)
-      return { expireToken, code_verify_token, access_token, new_refresh_token: refresh_token,expireCookie }
-=======
-      const { expireToken , expireCookie} = setCookieAuth(dataCookie)
-      return { expireToken, code_verify_token, access_token, new_refresh_token: refresh_token, expireCookie }
->>>>>>> effc9bd (Thêm thời gian hết hạn token để check middlewares ở client)
-=======
-      const { expireToken , expireCookie} = setCookieAuth(dataCookie)
-      return { expireToken, code_verify_token, access_token, new_refresh_token: refresh_token, expireCookie }
->>>>>>> effc9bd709197e600109bd44d046e7198402c8ce
->>>>>>> 221a1fe6068856c4044628949fe94ec144aef0e6
-}
 
+}
 export const handleKeyAndCookie = async ({ user, res }: { user: UserDocument; res: Response }) => {
       await keyManagerModel.findOneAndDelete({ user_id: user._id })
 
@@ -79,22 +60,7 @@ export const handleKeyAndCookie = async ({ user, res }: { user: UserDocument; re
             res
       }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
       const { expireToken,expireCookie } = setCookieAuth(dataCookie)
-=======
-      const { expireToken, expireCookie } = setCookieAuth(dataCookie)
->>>>>>> 77389b1 (Fix bug api trong phần auth)
-=======
-<<<<<<< HEAD
-      const { expireToken, expireCookie } = setCookieAuth(dataCookie)
-=======
-      const { expireToken,expireCookie } = setCookieAuth(dataCookie)
->>>>>>> effc9bd (Thêm thời gian hết hạn token để check middlewares ở client)
-=======
-      const { expireToken,expireCookie } = setCookieAuth(dataCookie)
->>>>>>> effc9bd709197e600109bd44d046e7198402c8ce
->>>>>>> 221a1fe6068856c4044628949fe94ec144aef0e6
 
       return { expireToken, code_verify_token, access_token, refresh_token, expireCookie }
 }
