@@ -1,16 +1,15 @@
 import { NextFunction, Response } from 'express'
 import { Types } from 'mongoose'
-import { BadRequestError, InternalError, NotFoundError } from '~/Core/response.error'
+import { BadRequestError } from '~/Core/response.error'
 import cloudinary from '~/configs/cloudinary.config'
 import { inputSettingText } from '~/constants/input.constants'
 import formModel, { FormModeDisplay, FormSchema, FormState } from '~/model/form.model'
 import formAnswerModel, { oneAnswer } from '~/model/formAnswer.model'
 import { formTitleSubModel, generateCoreImageObject, generateCoreTextObject, generateSubTitleType } from '~/model/form_title.model'
 import { inputModel } from '~/model/input.model'
-import { notificationModel, notificationUserModel } from '~/model/notification.model'
+import { notificationUserModel } from '~/model/notification.model'
 import { UserDocument } from '~/model/user.model'
-import { CustomRequest, Form, FormEdit, Http, InputCore, Notification } from '~/type'
-import { sleep } from '~/utils/comon.utils'
+import { CustomRequest, Form, FormEdit, InputCore, Notification } from '~/type'
 import { foundForm, renderCountFormState, updateFormCommon, updateFormCommonSub } from '~/utils/form.utils'
 import createANotification from '~/utils/notification'
 import uploadToCloudinary from '~/utils/upload.cloudinary'
@@ -157,11 +156,11 @@ class FormService {
 
             const options = { new: true, upsert: true }
 
-            //tach code
-            const deleteForm = await formModel.findOneAndDelete(formQuery, options)
-            const deleteFormTitleSub = await formTitleSubModel.findOneAndDelete(formTitleSubQuery, options)
-            const deleteFormAnswerMini = await oneAnswer.findOneAndDelete(formTitleSubQuery, options)
-            const deleteFormAnswer = await formAnswerModel.findOneAndDelete(formTitleSubQuery, options)
+            //xoa cac models lien quan
+            await formModel.findOneAndDelete(formQuery, options)
+            await formTitleSubModel.findOneAndDelete(formTitleSubQuery, options)
+            await oneAnswer.findOneAndDelete(formTitleSubQuery, options)
+            await formAnswerModel.findOneAndDelete(formTitleSubQuery, options)
 
             const found_notification_user = { notification_user_id: user?._id }
 

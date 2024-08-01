@@ -17,16 +17,17 @@ export const setCookieAuth = ({
       res: Response
 }) => {
       const now = new Date().getTime()
-      const expireCookieTime = new Date(Number(now + ms(process.env.EXPIRE_REFRESH_TOKEN as string))).toString()
+      const expireCookieTime = new Date(Number(now + ms(process.env.EXPIRE_REFRESH_TOKEN as string))).toUTCString()
   
-      const expireTokenTime = new Date(Number(now + ms(process.env.EXPIRE_ACCESS_TOKEN as string))).toString()
+      const expireTokenTime = new Date(Number(now + ms(process.env.EXPIRE_ACCESS_TOKEN as string))).toUTCString()
 
       setCookieResponse(res, expireCookieTime, 'client_id', client_id, { httpOnly: true })
       setCookieResponse(res, expireCookieTime, 'code_verify_token', code_verify_token, { httpOnly: true })
 
-      const expireToken = setCookieResponse(res, expireTokenTime, 'access_token', access_token, { httpOnly: true })
-      const expireCookie = setCookieResponse(res, expireCookieTime, 'refresh_token', refresh_token, { httpOnly: true })
-      return { expireToken, expireCookie }
+     setCookieResponse(res, expireCookieTime, 'access_token', access_token, { httpOnly: true })
+      setCookieResponse(res, expireCookieTime, 'refresh_token', refresh_token, { httpOnly: true })
+
+      return { expireToken: new Date(expireTokenTime), expireCookie: new Date(expireCookieTime)}
 }
 
 export const clearCookieAuth = ({ res }: { res: Response }) => {
