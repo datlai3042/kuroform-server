@@ -56,27 +56,26 @@ class AuthService {
             const { email, password } = req.body
             const { user } = await checkDataUser({ email, password })
 
-            const { access_token, code_verify_token, expireToken, refresh_token , expireCookie} = await handleKeyAndCookie({ user, res })
+            const { access_token, code_verify_token, expireToken, refresh_token, expireCookie } = await handleKeyAndCookie({ user, res })
             await createANotification({ user_id: user?._id, type: 'System', core: { message: 'Chào mừng bạn quay trở lại' } })
 
             return {
                   user: omit(user.toObject(), ['user_password']),
                   token: { access_token, refresh_token, code_verify_token },
-expireCookie,
+                  expireCookie,
                   expireToken,
-                  client_id: user._id,
-
+                  client_id: user._id
             }
       }
 
       static async logout(req: CustomRequest, res: Response, next: NextFunction) {
             const user = req.user as UserDocument
             const { force } = req.body
-            await createANotification({
-                  user_id: user?._id as Types.ObjectId,
-                  type: 'System',
-                  core: { message: 'Đăng xuất thành công' }
-            })
+            // await createANotification({
+            //       user_id: user?._id as Types.ObjectId,
+            //       type: 'System',
+            //       core: { message: 'Đăng xuất thành công' }
+            // })
             clearCookieAuth({ res })
 
             await keyManagerModel.findOneAndDelete({ user_id: user._id })
@@ -88,7 +87,7 @@ expireCookie,
             const { refresh_token } = req
             const { user } = req
 
-            const { access_token, code_verify_token, expireToken, new_refresh_token, expireCookie} = await handleCookieAndKeyRefreshToken({
+            const { access_token, code_verify_token, expireToken, new_refresh_token, expireCookie } = await handleCookieAndKeyRefreshToken({
                   user: user as UserDocument,
                   refresh_token_used: refresh_token as string,
                   res
@@ -97,7 +96,7 @@ expireCookie,
                   user: omit(user?.toObject(), ['user_password']),
                   token: { access_token, refresh_token: new_refresh_token, code_verify_token },
                   expireToken,
-expireCookie,
+                  expireCookie,
                   client_id: (user?._id as Types.ObjectId).toString()
             }
       }

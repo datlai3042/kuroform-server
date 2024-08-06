@@ -35,11 +35,11 @@ const authentication = asyncHandler(async (req: CustomRequest, res: Response, ne
       const keyStore = await keyManagerModel.findOne({ user_id: user._id })
       if (!keyStore) throw new ForbiddenError({ metadata: 'Không tìm thấy key của user' })
 
-            console.log({client: client_id, endpoint: req.originalUrl, roles: user.user_roles})
+      console.log({ client: client_id, endpoint: req.originalUrl, roles: user.user_roles })
 
       if (req.originalUrl === '/v1/api/auth/logout') {
             const code_verify_token = req.cookies['code_verify_token'] as string
-
+            console.log('OK')
             if (keyStore.code_verify_token === code_verify_token || keyStore.user_id === new Types.ObjectId(client_id)) {
                   req.user = user
                   return next()

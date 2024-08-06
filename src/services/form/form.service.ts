@@ -60,6 +60,9 @@ class FormService {
 
       static async getFormId(req: CustomRequest<object, { form_id: string }>, res: Response, next: NextFunction) {
             const { form_id } = req.query
+            if (form_id.length < 24) {
+                  return { form: null }
+            }
             const { user } = req
             const form = await formModel.findOne({ _id: new Types.ObjectId(form_id), form_owner: user?._id }).populate('form_title.form_title_sub')
 
@@ -99,6 +102,10 @@ class FormService {
       static async getFormUpdate(req: CustomRequest<FormEdit.FindFormParams>, res: Response, next: NextFunction) {
             const { user } = req
             const { form_id } = req.body
+
+            if (form_id.length < 24) {
+                  return { form: null }
+            }
             const formQuery = { form_owner: user?._id, _id: new Types.ObjectId(form_id) }
             const form = await formModel.findOne(formQuery)
             if (!form) throw new BadRequestError({ metadata: 'Tạo Form thất bại' })
@@ -107,6 +114,10 @@ class FormService {
 
       static async getFormGuess(req: CustomRequest<object, { form_id: string }>, res: Response, next: NextFunction) {
             const { form_id } = req.query
+
+            if (form_id.length < 24) {
+                  return { form: null }
+            }
             const formQuery = { _id: new Types.ObjectId(form_id), form_state: { $eq: 'isPublic' } }
             const form = await formModel.findOne(formQuery)
             if (!form) {
@@ -139,6 +150,10 @@ class FormService {
       static async deleteFormId(req: CustomRequest<object, { form_id: Types.ObjectId }>, res: Response, next: NextFunction) {
             const { form_id } = req.query
             const { user } = req
+
+            if (form_id.toString().length < 24) {
+                  return { form: null }
+            }
 
             const { form } = await updateFormCommon({ form_id, user_id: user?._id as Types.ObjectId, update_query: { $set: { form_state: 'isDelete' } } })
 
@@ -510,7 +525,7 @@ class FormService {
             const form_answer = await formAnswerModel.findOne({ form_id })
             if (form_answer) {
                   form_answer.reports = form_answer.reports.filter((answer) => {
-                        let newArray = answer.answers.filter((ip) => {
+                        const newArray = answer.answers.filter((ip) => {
                               if (ip._id.toString() === input_id) {
                                     return null
                               }
