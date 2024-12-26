@@ -136,7 +136,7 @@ export const caseAccountExist = async ({ user, res }: { user: UserDocument; res:
 
       const { expireToken,expireCookie } = setCookieAuth(dataCookie)
 
-      const url_client = process.env.MODE === 'DEV' ? 'http://localhost:3000/oauth' : process.env.CLIENT_URL + '/oauth'
+      const url_client =  process.env.CLIENT_URL + '/oauth'
       const url_full = `${url_client}?refresh_token=${refresh_token}&access_token=${access_token}&code_verify_token=${code_verify_token}&expireToken=${expireToken}&client_id=${user._id}&expireCookie=${expireCookie}`
       res.redirect(url_full)
 }
