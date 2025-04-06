@@ -26,6 +26,11 @@ class FormAnswerController {
       static async increaseViewFormAnswer(req: CustomRequest, res: Response, next: NextFunction) {
             return new OK({ metadata: await FormAnswerService.increaseViewFormAnswer(req, res, next) }).send(res)
       }
+
+      static async deleteOneAnswer(req: CustomRequest, res: Response, next: NextFunction) {
+            return new OK({ metadata: await FormAnswerService.deleteOneAnswer(req, res, next) }).send(res)
+
+      }
 }
 
 export default FormAnswerController

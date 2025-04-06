@@ -34,27 +34,34 @@ export const generateCoreFullDescriptionObject = ({
 
 export const generateSubTitleType = ({ type, form_id }: { type: Form.FormTitle.FormTitleBase['type']; form_id: Types.ObjectId }) => {
       switch (type) {
-            case 'Text':
+            case 'Text': {
                   const text = {
                         type,
                         form_id
                   }
                   return text
+            }
 
-            case 'Image':
+
+            case 'Image': {
                   const image = {
                         type,
                         form_id
                   }
                   return image
 
-            case 'FullDescription':
-                  const fullDescription = {
-                        type,
-                        form_id
-                  }
+            }
 
-                  return fullDescription
+
+            case 'FullDescription':
+                  {
+                        const fullDescription = {
+                              type,
+                              form_id
+                        }
+
+                        return fullDescription
+                  }
       }
 }
 

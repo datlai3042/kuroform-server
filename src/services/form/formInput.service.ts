@@ -52,7 +52,6 @@ class FormInputService {
                         'form_inputs.$.input_title': input_title_value
                   }
             })
-
             const form_answers = await formAnswerCore.findOne({ form_id: new Types.ObjectId(form._id) })
             form_answers?.reports.map((rp) => {
                   return rp.answers.map((ans) => {
@@ -63,7 +62,6 @@ class FormInputService {
                         return ans
                   })
             })
-
             await form_answers?.save()
 
             return { form: formUpdate }
@@ -156,6 +154,8 @@ class FormInputService {
 
             return { form: formUpdate }
       }
+
+    
 }
 
 export default FormInputService

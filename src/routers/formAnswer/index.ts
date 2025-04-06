@@ -13,5 +13,8 @@ routerFormAnswer.use(authentication)
 routerFormAnswer.get('/get-form-answer', asyncHandler(FormAnswerController.getFormAnswer))
 routerFormAnswer.get('/get-form-view', asyncHandler(FormAnswerController.getTotalViewForm))
 routerFormAnswer.get('/get-total-form-answer', asyncHandler(FormAnswerController.getTotaLAnswerForm))
+routerFormAnswer.delete('/delete-one-report', asyncHandler(FormAnswerController.deleteOneAnswer))
+
+
 
 export default routerFormAnswer

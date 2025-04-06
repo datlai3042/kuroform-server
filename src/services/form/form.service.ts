@@ -10,6 +10,7 @@ import { inputModel } from '~/model/input.model'
 import { notificationUserModel } from '~/model/notification.model'
 import { UserDocument } from '~/model/user.model'
 import { CustomRequest, Form, FormEdit, InputCore, Notification } from '~/type'
+import { sleep } from '~/utils/comon.utils'
 import { foundForm, renderCountFormState, updateFormCommon, updateFormCommonSub } from '~/utils/form.utils'
 import createANotification from '~/utils/notification'
 import uploadToCloudinary from '~/utils/upload.cloudinary'
@@ -28,7 +29,7 @@ class FormService {
 
       static async getForms(req: CustomRequest, res: Response, next: NextFunction) {
             const { user } = req
-            const forms = await formModel.find({ form_owner: new Types.ObjectId(user?._id) })
+            const forms = await formModel.find({ form_owner: new Types.ObjectId(user?._id), form_state: { $ne: 'isDelete' } }).sort({ createdAt: 1 })
             return { forms }
       }
 
@@ -40,7 +41,7 @@ class FormService {
       static async getSearchForm(req: CustomRequest<object, { text: string }>, res: Response, next: NextFunction) {
             const { user } = req
             const { text } = req.query
-            const formQuery = { form_owner: user?._id }
+            const formQuery = { form_owner: user?._id, form_state: { $ne: 'isDelete' } }
             const forms = await formModel
                   .find(formQuery)
                   .find({ $text: { $search: text as string } })
@@ -59,11 +60,11 @@ class FormService {
 
       static async getFormId(req: CustomRequest<object, { form_id: string }>, res: Response, next: NextFunction) {
             const { form_id } = req.query
-            if (form_id.length < 24) {
+            if (form_id.length > 24) {
                   return { form: null }
             }
             const { user } = req
-            const form = await formModel.findOne({ _id: new Types.ObjectId(form_id), form_owner: user?._id }).populate('form_title.form_title_sub')
+            const form = await formModel.findOne({ _id: new Types.ObjectId(form_id), form_owner: user?._id, form_state: { $ne: 'isDelete' } }).populate('form_title.form_title_sub')
 
             return { form: form ? form : null }
       }
@@ -465,7 +466,7 @@ class FormService {
             const folder = `${process.env.CLOUDINARY_FOLDER_PREFIX}/users/user_id_${user?.id}/form_id_${formOrigin?._id}/background`
             const result = await uploadToCloudinary(req?.file as Express.Multer.File, folder)
 
-            
+
 
             const form_cover = { form_background_iamge_url: result.secure_url, form_backround_image_publicId: result.public_id }
 
@@ -520,27 +521,7 @@ class FormService {
             const { user } = req
             const { form_id, input_id } = req.body
             const formQueryDoc = { form_owner: user?._id, _id: form_id }
-
             const formUpdate = await formModel.findOne(formQueryDoc)
-
-            const form_answer = await formAnswerModel.findOne({ form_id })
-            if (form_answer) {
-                  form_answer.reports = form_answer.reports.filter((answer) => {
-                        const newArray = answer.answers.filter((ip) => {
-                              if (ip._id.toString() === input_id) {
-                                    return null
-                              }
-                              return ip
-                        })
-                        if (newArray.length === 0) {
-                              return null
-                        } else {
-                              return { ...answer, answers: newArray, form_id: form_id }
-                        }
-                  })
-                  await form_answer.save()
-            }
-
             if (!formUpdate) throw new BadRequestError({ metadata: 'update form failure' })
             formUpdate.form_inputs = formUpdate.form_inputs.filter((input) => {
                   if (input._id?.toString() === input_id) {
@@ -549,8 +530,29 @@ class FormService {
                   return input
             }) as Types.DocumentArray<InputCore.InputCommon[]>
             await formUpdate.save()
+            const form_answer = await formAnswerModel.findOne({ form_id })
+            if (form_answer) {
+                  form_answer.reports = form_answer.reports
+                        .map((answer) => {
+                              const newArray = answer.answers.filter((ip) => ip._id.toString() !== input_id)
 
-            return { form: formUpdate }
+                              if (newArray.length === 0) {
+                                    return null // lọc ở bước tiếp theo
+                              }
+
+                              return {
+                                    ...answer,
+                                    answers: newArray,
+                              }
+                        })
+                        .filter((answer) => answer !== null)
+
+                  await form_answer.save()
+            }
+
+
+
+            return { form: formUpdate, form_answer }
       }
 }
 

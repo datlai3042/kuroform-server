@@ -36,10 +36,7 @@ export const generateInputSettingWithType = (type: InputCore.InputForm['type'], 
                   return (core = { setting: { ...setting_default, ...inputSettingPhone } } as Core.Text)
             }
 
-            case 'TEXT': {
-                  const setting_default = generateInputSettingDefault(form, inputItem)
-                  return (core = { setting: { ...setting_default, ...inputSettingText } } as Core.Text)
-            }
+
 
             case 'ADDRESS': {
                   const setting_default = generateInputSettingDefault(form, inputItem)

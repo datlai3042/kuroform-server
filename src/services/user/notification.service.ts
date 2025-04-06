@@ -3,6 +3,7 @@ import { Types } from 'mongoose'
 import { BadRequestError } from '~/Core/response.error'
 import { notificationModel, notificationUserModel } from '~/model/notification.model'
 import { CustomRequest, Notification } from '~/type'
+import { sleep } from '~/utils/comon.utils'
 import { updateNotificationCommon } from '~/utils/notification.utils'
 
 class NotificationService {
@@ -14,7 +15,6 @@ class NotificationService {
                   return { notifications: [] }
             }
             notifications.notifications = notifications.notifications.sort((a, b) => b.create_time.getTime() - a.create_time.getTime())
-
             return { notification_user: notifications }
       }
 

@@ -2,6 +2,7 @@ import { NextFunction, Response } from 'express'
 import { Types } from 'mongoose'
 import { BadRequestError } from '~/Core/response.error'
 import formModel from '~/model/form.model'
+import formAnswerCore from '~/model/formAnswer.model'
 import formAnswerModel, { oneAnswer } from '~/model/formAnswer.model'
 import { CustomRequest, Form, Notification } from '~/type'
 import createANotification from '~/utils/notification'
@@ -14,8 +15,10 @@ class FormAnswerService {
             next: NextFunction
       ) {
             const { formAnswer } = req.body
-            const found_form_origin = await formModel.findOne({ _id: formAnswer.form_id })
-
+            const found_form_origin = await formModel.findOne({ _id: formAnswer.form_id, form_state: { $ne: 'isDelete' } })
+            if (!found_form_origin) {
+                  throw new BadRequestError({ metadata: 'Form không tồn tại' })
+            }
             const oneAnswerUpdate = await oneAnswer.findOneAndUpdate(
                   { _id: formAnswer.form_answer_id },
                   { $set: { answers: formAnswer.answers, form_answer_state: 'Done' } },
@@ -147,6 +150,26 @@ class FormAnswerService {
                   )
                   return { form_answers_res, url: result.secure_url }
             }
+      }
+
+      static async deleteOneAnswer(req: CustomRequest<object, { form_id: string, report_id: string }>, res: Response, next: NextFunction) {
+            const { form_id, report_id, } = req.query
+            const { user } = req
+            const formAnswerQuery = { form_id: form_id, owner_id: user?._id, 'reports.form_answer_state': { $eq: 'Done' } }
+
+            const formAnswer = await formAnswerModel.findOne(formAnswerQuery)
+            if (!formAnswer) {
+                  throw new BadRequestError({ metadata: null })
+            }
+            formAnswer.reports = formAnswer.reports.filter((rp) => {
+                  if (rp._id?.toString() === report_id) {
+                        console.log({ match: true })
+                        return null
+                  }
+                  return rp
+            })
+            await formAnswer.save()
+            return { formAnswer }
       }
 }
 

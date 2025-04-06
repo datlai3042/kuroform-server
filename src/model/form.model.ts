@@ -104,7 +104,7 @@ export const formSchema = new Schema<FormSchemaDoc>(
             form_title: {
                   type: {
                         form_title_color: { type: String },
-                        form_title_size: { type: Number, max: 30 },
+                        form_title_size: { type: Number, max: 40 },
                         form_title_style: { type: String },
                         form_title_value: { type: String },
                         form_title_sub: { type: [formTitleSubSchema] },
