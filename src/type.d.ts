@@ -230,6 +230,12 @@ namespace UpdateAccount {
             password: string
             new_password: string
       }
+      export type UpdateCommonText = {
+            user_first_name: string
+            user_last_name: string,
+            user_email: string
+      }
+
 }
 
 namespace FormEdit {

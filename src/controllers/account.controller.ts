@@ -22,6 +22,10 @@ class AccountController {
       static async updatePassword(req: CustomRequest, res: Response, next: NextFunction) {
             return new OK({ metadata: await AccountService.updatePassword(req, res, next) }).send(res)
       }
+      static async updateAccountInfo(req: CustomRequest, res: Response, next: NextFunction) {
+            return new OK({ metadata: await AccountService.updateAccountInfo(req, res, next) }).send(res)
+      }
+      
 }
 
 export default AccountController

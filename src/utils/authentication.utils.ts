@@ -65,39 +65,39 @@ export const handleKeyAndCookie = async ({ user, res }: { user: UserDocument; re
       return { expireToken, code_verify_token, access_token, refresh_token, expireCookie }
 }
 
-export const checkDataUser = async ({ email, password }: { email: string; password: string }) => {
-      const foundUser = await userModel.findOne({ user_email: email })
+export const checkDataUser = async ({ user_email, user_password }: { user_email: string; user_password: string }) => {
+      const foundUser = await userModel.findOne({ user_email })
       if (!foundUser) throw new AuthFailedError({ metadata: 'Không tìm thấy thông tin tài khoản' })
 
-      const checkPassword = compare(password, foundUser?.user_password)
+      const checkPassword = await compare(user_password, foundUser?.user_password)
       if (!checkPassword) throw new AuthFailedError({ metadata: 'Không tin tài khoản không chính xác' })
 
       return { user: foundUser }
 }
 
 export const checkMailAndCreateUser = async ({
-      email,
-      password,
-      last_name,
-      first_name
+      user_email,
+      user_password,
+      user_last_name,
+      user_first_name
 }: {
-      email: string
-      password: string
-      last_name: string
-      first_name: string
+      user_email: string
+      user_password: string
+      user_last_name: string
+      user_first_name: string
 }) => {
-      const foundEmail = await userModel.findOne({ user_email: email })
+      const foundEmail = await userModel.findOne({ user_email })
       if (foundEmail) throw new AuthFailedError({ metadata: 'Email đã tồn tại' })
 
-      const hashPassword = await hassPassword(password)
+      const hashPassword = await hassPassword(user_password)
 
-      const user_atlas = email.split('@')[0]
+      const user_atlas = user_email.split('@')[0]
 
       const createUser = await userModel.create({
-            user_email: email,
+            user_email,
             user_password: hashPassword,
-            user_first_name: first_name,
-            user_last_name: last_name,
+            user_first_name,
+            user_last_name,
             user_auth: 'email',
             user_password_state: true,
             user_atlas

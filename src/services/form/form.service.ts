@@ -60,7 +60,7 @@ class FormService {
 
       static async getFormId(req: CustomRequest<object, { form_id: string }>, res: Response, next: NextFunction) {
             const { form_id } = req.query
-            if (form_id.length > 24) {
+            if (form_id.length > 24 || form_id.length < 24) {
                   return { form: null }
             }
             const { user } = req

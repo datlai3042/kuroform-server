@@ -26,20 +26,20 @@ import {
 import { createPayload, fillDataKeyModel, generateCodeVerifyToken, generatePaidKey, generatePaidToken } from '~/utils/token.utils'
 
 type AuthParam = {
-      email: string
-      password: string
-      first_name: string
-      last_name: string
+      user_email: string
+      user_password: string
+      user_first_name: string
+      user_last_name: string
 }
 
 class AuthService {
       static async register(req: CustomRequest<AuthParam>, res: Response, next: NextFunction) {
-            const { email, password, first_name, last_name } = req.body
+            const { user_email, user_password, user_first_name, user_last_name } = req.body
 
-            if (!email || !password || !first_name || !last_name) throw new AuthFailedError({ metadata: 'Request thiếu các field bắt buốc' })
+            if (!user_email || !user_password || !user_first_name || !user_last_name) throw new AuthFailedError({ metadata: 'Request thiếu các field bắt buốc' })
 
-            const { user } = await checkMailAndCreateUser({ email, last_name, first_name, password })
-            await createANotification({ user_id: user?._id, type: 'System', core: { message: 'Cảm ơn bạn đã tạo tài khoản' } })
+            const { user } = await checkMailAndCreateUser({ user_email, user_first_name, user_last_name, user_password })
+            await createANotification({ user_id: user?._id, type: 'System', core: { message: 'Chào mừng bạn đến với Kuroform' } })
 
             const { access_token, code_verify_token, expireToken, refresh_token, expireCookie } = await handleKeyAndCookie({ user, res })
 
@@ -53,8 +53,8 @@ class AuthService {
       }
 
       static async login(req: CustomRequest<AuthParam>, res: Response, next: NextFunction) {
-            const { email, password } = req.body
-            const { user } = await checkDataUser({ email, password })
+            const { user_email, user_password } = req.body
+            const { user } = await checkDataUser({ user_email, user_password })
 
             const { access_token, code_verify_token, expireToken, refresh_token, expireCookie } = await handleKeyAndCookie({ user, res })
             await createANotification({ user_id: user?._id, type: 'System', core: { message: 'Chào mừng bạn quay trở lại' } })

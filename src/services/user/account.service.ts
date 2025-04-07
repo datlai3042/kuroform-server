@@ -1,6 +1,6 @@
 import { NextFunction, Response } from 'express'
 import { Types } from 'mongoose'
-import { BadRequestError } from '~/Core/response.error'
+import { BadRequestError, InternalError } from '~/Core/response.error'
 import { notificationUserModel } from '~/model/notification.model'
 import userModel from '~/model/user.model'
 import { CustomRequest, UpdateAccount } from '~/type'
@@ -120,6 +120,20 @@ class AccountService {
             if (!userUpdate) throw new BadRequestError({ metadata: 'Unknown Error' })
 
             return { message: 'Success', user: omit(userUpdate.toObject(), ['user_password']) }
+      }
+
+      static async updateAccountInfo(req: CustomRequest<UpdateAccount.UpdateCommonText>, res: Response, next: NextFunction) {
+            const { user_email, user_first_name, user_last_name } = req.body
+            const { user } = req
+            if (!user) {
+                  throw new BadRequestError({ metadata: 'Truy cập không hợp lệ' })
+            }
+            const updateUser = await userModel.findOneAndUpdate({ _id: user?.id }, { user_email, user_last_name, user_first_name }, { upsert: true, })
+            if (!updateUser) {
+                  throw new InternalError({ metadata: 'Lỗi hệ thống' })
+            }
+
+            return { user: updateUser }
       }
 }
 

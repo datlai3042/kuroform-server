@@ -14,5 +14,8 @@ routerAccount.post('/update-password', asyncHandler(AccountController.updatePass
 routerAccount.post('/create-password', asyncHandler(AccountController.createPassword))
 
 routerAccount.get('/me', asyncHandler(AccountController.me))
+routerAccount.post('/update-account', asyncHandler(AccountController.updateAccountInfo))
+
+
 
 export default routerAccount
