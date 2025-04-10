@@ -101,7 +101,7 @@ class FormInputService {
             const { user } = req
             const { form_id } = req.body
             const newInput = await inputModel.create({ core: { setting: inputSettingText }, type: 'TEXT' })
-
+            console.log({newInput: JSON.stringify(newInput)})
             const { form } = await updateFormCommon({ form_id, user_id: user?._id as Types.ObjectId, update_query: { $push: { form_inputs: newInput } } })
 
             return { form }
@@ -137,7 +137,6 @@ class FormInputService {
             const { user } = req
             const { form, inputItem, type } = req.body
             const core = generateInputSettingWithType(type, form, inputItem)
-
             const { form: formUpdate } = await updateFormCommonSub({
                   form_id: form._id,
                   user_id: user?._id as Types.ObjectId,
@@ -151,11 +150,22 @@ class FormInputService {
                         }
                   }
             })
-
-            return { form: formUpdate }
+            const formAnswer = await formAnswerCore.findOne({ form_id: form._id })
+            if (!formAnswer) {
+                  throw new BadRequestError({ metadata: 'Lỗi hệ thống' })
+            }
+            formAnswer.reports = formAnswer.reports
+                  .map((rp) => {
+                        const newAns = rp.answers.filter((ans) => ans._id !== inputItem._id);
+                        if (newAns.length === 0) return null;
+                        return { ...rp, answers: newAns };
+                  })
+                  .filter((rp) => rp !== null);
+            await formAnswer.save()
+            return { form: formUpdate, formAnswer }
       }
 
-    
+
 }
 
 export default FormInputService

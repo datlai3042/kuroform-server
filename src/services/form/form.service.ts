@@ -22,7 +22,7 @@ class FormService {
             const formQuery = { form_owner: user?._id }
             const form = await formModel.create(formQuery)
             if (!form) throw new BadRequestError({ metadata: 'Tạo Form thất bại' })
-            await createANotification({ user_id: (user as UserDocument)?._id, type: 'System', core: { message: 'Bạn đã tạo một Form' } })
+            // await createANotification({ user_id: (user as UserDocument)?._id, type: 'System', core: { message: 'Bạn đã tạo một Form' } })
 
             return { form_id: await form._id }
       }

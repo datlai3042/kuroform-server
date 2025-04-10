@@ -7,7 +7,7 @@ import { notificationModel } from '~/model/notification.model'
 import userModel, { UserDocument } from '~/model/user.model'
 import { CustomRequest, OAuth, Token } from '~/type'
 import { checkDataUser, checkMailAndCreateUser, handleCookieAndKeyRefreshToken, handleKeyAndCookie } from '~/utils/authentication.utils'
-import { compare, hassPassword } from '~/utils/bcrypt.utils'
+import { compare, hassPassword, } from '~/utils/bcrypt.utils'
 import { clearCookieAuth, setCookieAuth } from '~/utils/cookie.utits'
 import { expriresAT, omit, oneWeek, setCookieResponse } from '~/utils/dataResponse.utils'
 import createANotification from '~/utils/notification'
@@ -54,10 +54,12 @@ class AuthService {
 
       static async login(req: CustomRequest<AuthParam>, res: Response, next: NextFunction) {
             const { user_email, user_password } = req.body
+
+         
             const { user } = await checkDataUser({ user_email, user_password })
 
             const { access_token, code_verify_token, expireToken, refresh_token, expireCookie } = await handleKeyAndCookie({ user, res })
-            await createANotification({ user_id: user?._id, type: 'System', core: { message: 'Chào mừng bạn quay trở lại' } })
+            // await createANotification({ user_id: user?._id, type: 'System', core: { message: 'Chào mừng bạn quay trở lại' } })
 
             return {
                   user: omit(user.toObject(), ['user_password']),
