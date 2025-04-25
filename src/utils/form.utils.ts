@@ -51,7 +51,7 @@ export const renderCountFormState = async ({ user }: { user: UserDocument }) => 
       return { formDelete, formPublic, formPrivate }
 }
 
-export const updateFormCommon = async ({ form_id, user_id, update_query }: { form_id: Types.ObjectId; user_id: Types.ObjectId; update_query: Object }) => {
+export const updateFormCommon = async ({ form_id, user_id, update_query }: { form_id: Types.ObjectId; user_id: Types.ObjectId; update_query: object }) => {
       const formQuery = { _id: form_id, form_owner: user_id }
       const formUpdate = update_query
       const formOptions = { new: true, upsert: true }
@@ -69,8 +69,8 @@ export const updateFormCommonSub = async ({
 }: {
       form_id: Types.ObjectId
       user_id: Types.ObjectId
-      sub_query: Object
-      update_query: Object
+      sub_query: object
+      update_query: object
 }) => {
       const formQuery = { _id: form_id, form_owner: user_id, ...sub_query }
       const formUpdate = update_query

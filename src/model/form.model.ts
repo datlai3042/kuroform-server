@@ -19,30 +19,45 @@ export type FormSchema = {
       form_owner: Types.ObjectId
       form_color?: string,
       form_button_text: string,
+      form_button_color: string,
+      form_button_background: string,
+
       form_background?: {
             backgroundColor?: string
             form_background_iamge_url: string
             form_backround_image_publicId: string
             mode_show: 'cover' | 'contain'
-            position: {
-                  top: number
-                  left: number
-            }
+
             object: {
-                  x: number
-                  y: number
+                  x: {
+                        value: number,
+                        unit: string
+                  },
+                  y: {
+                        value: number,
+                        unit: string
+                  },
             }
             size: {
-                  width: number
-                  height: number
+                  width: {
+                        value: number,
+                        unit: string
+                  },
+                  height: {
+                        value: number,
+                        unit: string
+                  },
             }
-            padding: {
-                  x: number
 
-                  y: number
-            }
       }
-
+      form_themes: 'LIGHT' | 'DARK' | 'AUTO'
+      form_styles: 'GOOGLE_FORM' | 'FULL_WIDTH'
+      form_input_styles: {
+            borderColor?: string,
+            borderWidth?: number,
+            color?: string,
+            radius?: number,
+      },
       form_title?: {
             form_title_style?: FormTextStyle
             form_title_value: string
@@ -51,7 +66,11 @@ export type FormSchema = {
             form_title_mode_image: 'Normal' | 'Slider'
             form_title_sub: Form.FormTitle.FormTitleBase[]
       }
-
+      form_input: {
+            border_color: string,
+            color: string,
+            placeholderColor: string
+      },
       form_avatar_state: boolean
       form_background_state: boolean
       form_avatar?: {
@@ -91,8 +110,19 @@ export const formSchema = new Schema<FormSchemaDoc>(
             form_owner: { type: Schema.Types.ObjectId, ref: 'User', required: true },
             form_views: { type: Number, default: 0 },
             form_response: { type: Number, default: 0 },
-            form_button_text: {type: String, default: 'Gửi'},
-            form_color: {type: String, default: ''},
+            form_button_text: { type: String, default: 'Gửi' },
+            form_button_background: { type: String, default: '' },
+            form_button_color: { type: String, default: '' },
+            form_input_styles: {
+                  borderColor: { type: String, default: '' },
+                  borderWidth: { type: Number, default: 1 },
+
+                  color: { type: String, default: '' },
+                  radius: { type: Number, default: 4 }
+            },
+            form_styles: { type: 'String', default: 'FULL_WIDTH' },
+            form_themes: { type: 'String', default: 'AUTO' },
+            form_color: { type: String, default: '' },
             form_avatar: {
                   type: {
                         form_avatar_url: String,
@@ -125,23 +155,18 @@ export const formSchema = new Schema<FormSchemaDoc>(
                         form_background_iamge_url: String,
                         form_backround_image_publicId: String,
                         mode_show: { type: String, enum: ['cover', 'contain'], default: 'cover' },
-                        position: {
-                              top: Number,
-                              left: Number
-                        },
+
                         size: {
-                              width: Number,
-                              height: Number
+                              width: { type: { value: Number, unit: String }, default: null },
+                              height: { type: { value: Number, unit: String }, default: null },
+
                         },
                         object: {
-                              x: { type: Number, default: 50 },
-                              y: { type: Number, default: 50 }
-                        },
-                        padding: {
-                              x: { type: Number, default: 0 },
+                              x: { type: { value: Number, unit: String }, default: null },
+                              y: { type: { value: Number, unit: String }, default: null },
 
-                              y: { type: Number, default: 0 }
-                        }
+                        },
+
                   }
             },
             form_avatar_state: { type: Boolean, default: false },

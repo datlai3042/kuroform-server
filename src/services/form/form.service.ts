@@ -374,7 +374,12 @@ class FormService {
                         form_inputs: form.form_inputs,
                         form_mode_display: form.form_mode_display,
                         form_color: form.form_color,
-                        form_button_text: form.form_button_text
+                        form_button_text: form.form_button_text,
+                        form_button_color: form.form_button_color,
+                        form_button_background: form.form_button_background,
+                        form_input_styles: form.form_input_styles,
+                        form_themes: form.form_themes,
+                        form_styles: form.form_styles
                   }
             }
             const formOptionDoc = { new: true, upsert: true }
