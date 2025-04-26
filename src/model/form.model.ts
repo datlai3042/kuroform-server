@@ -193,7 +193,7 @@ export const formSchema = new Schema<FormSchemaDoc>(
 
                         form_avatar_default_mode: 'circle',
                         input_color: '#000000',
-                        input_size: 20,
+                        input_size: 16,
                         input_style: 'normal',
                         form_title_color_default: '#2568aa',
                         form_title_size_default: 30,

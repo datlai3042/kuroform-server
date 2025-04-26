@@ -163,7 +163,6 @@ class FormAnswerService {
             }
             formAnswer.reports = formAnswer.reports.filter((rp) => {
                   if (rp._id?.toString() === report_id) {
-                        console.log({ match: true })
                         return null
                   }
                   return rp
