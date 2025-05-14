@@ -102,7 +102,6 @@ export type FormSchema = {
       form_inputs: mongoose.Types.DocumentArray<InputCore.InputCommon[]>
       expireAt?: Date
 }
-
 export type FormSchemaDoc = FormSchema & Document
 
 export const formSchema = new Schema<FormSchemaDoc>(
@@ -199,8 +198,8 @@ export const formSchema = new Schema<FormSchemaDoc>(
                         form_title_size_default: 30,
                         form_title_style_default: 'normal',
                         form_background_default_url:
-                              'https://res.cloudinary.com/cloud304/image/upload/v1721751613/kuroform/systems/form/background_form_default.jpg',
-                        form_avatar_default_url: 'https://res.cloudinary.com/cloud304/image/upload/v1721751902/kuroform/systems/form/avatar_default.jpg'
+                              'https://res.cloudinary.com/cloud304/image/upload/v1747188609/kuroform/systems/form/background_form_default_v2.jpg',
+                        form_avatar_default_url: 'https://res.cloudinary.com/cloud304/image/upload/v1747188685/kuroform/systems/form/avatar_default_v2.png'
                   }
             },
             form_inputs: [inputCoreSchema],
