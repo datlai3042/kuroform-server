@@ -118,7 +118,7 @@ export const formSchema = new Schema<FormSchemaDoc>(
                   borderWidth: { type: Number, default: 1 },
 
                   color: { type: String, default: '' },
-                  radius: { type: Number, default: 4 }
+                  radius: { type: Number, default: 8 }
             },
             form_styles: { type: 'String', default: 'FULL_WIDTH' },
             form_themes: { type: 'String', default: 'AUTO' },
