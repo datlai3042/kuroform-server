@@ -63,6 +63,7 @@ namespace InputCore {
       export type InputCommon = {
             input_title: string
             _id: Types.ObjectId
+            width: number,
       }
 
       type InputSettingTextCommon = {
@@ -200,7 +201,8 @@ namespace Core {
             input_style: string
             input_error_state: boolean
             input_error: string
-            require: boolean
+            require: boolean,
+            width: number
       }
 
       type Text = {

@@ -6,7 +6,9 @@ const inputSettingCommon = {
       input_error_state: false,
       input_color: '#000000',
       input_size: 16,
-      input_style: 'normal'
+      input_style: 'normal',
+      width: 100,
+
 }
 
 export const inputSettingText = {

@@ -26,7 +26,9 @@ export const coreInputText = new Schema({
             maxLength: { type: Number, default: 100 },
             input_color: { type: String, default: '#000000' },
             input_style: { type: String, enum: ['normal', 'italic'], default: '#000000' },
-            input_size: { type: Number, default: 16 }
+            input_size: { type: Number, default: 16 },
+            width: { type: Number, default: 100 },
+
       }
 })
 
@@ -42,7 +44,9 @@ export const coreInputEmail = new Schema({
             maxLength: { type: Number, default: 100 },
             input_color: { type: String, default: '#000000' },
             input_style: { type: String, enum: ['normal', 'italic'], default: '#000000' },
-            input_size: { type: Number, default: 16 }
+            input_size: { type: Number, default: 16 },
+            width: { type: Number, default: 100 },
+
       }
 })
 export const coreInputEmailModel = model('InputEmailCore', coreInputEmail)
@@ -57,7 +61,9 @@ export const coreInputOption = new Schema({
             maxLength: { type: Number, default: 100 },
             input_color: { type: String, default: '#000000' },
             input_style: { type: String, enum: ['normal', 'italic'], default: '#000000' },
-            input_size: { type: Number, default: 16 }
+            input_size: { type: Number, default: 16 },
+            width: { type: Number, default: 100 },
+
       }
 })
 

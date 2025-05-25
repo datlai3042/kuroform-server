@@ -237,14 +237,14 @@ class FormService {
 
       //UPDATE TIÊU ĐỀ FORM
 
-      static async setTitleForm(req: CustomRequest<{ form_id: Types.ObjectId; value: string }>, res: Response, next: NextFunction) {
-            const { form_id, value } = req.body
+      static async setTitleForm(req: CustomRequest<{ form_id: Types.ObjectId; value: string, plaint_text: string }>, res: Response, next: NextFunction) {
+            const { form_id, value, plaint_text } = req.body
             const { user } = req
-
+            console.log({ plaint_text })
             const { form } = await updateFormCommon({
                   form_id,
                   user_id: user?._id as Types.ObjectId,
-                  update_query: { $set: { 'form_title.form_title_value': value } }
+                  update_query: { $set: { 'form_title.form_title_value': value, 'form_title.form_title_plain_text': plaint_text } }
             })
 
             return { form }

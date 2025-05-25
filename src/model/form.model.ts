@@ -64,7 +64,8 @@ export type FormSchema = {
             form_title_color?: string
             form_title_size?: number
             form_title_mode_image: 'Normal' | 'Slider'
-            form_title_sub: Form.FormTitle.FormTitleBase[]
+            form_title_sub: Form.FormTitle.FormTitleBase[],
+            form_title_plain_text?: string
       }
       form_input: {
             border_color: string,
@@ -137,7 +138,8 @@ export const formSchema = new Schema<FormSchemaDoc>(
                         form_title_style: { type: String },
                         form_title_value: { type: String },
                         form_title_sub: { type: [formTitleSubSchema] },
-                        form_title_mode_image: { type: String }
+                        form_title_mode_image: { type: String },
+                        form_title_plain_text: { type: String }
                   },
                   default: {
                         form_title_color: 'rgb(127, 139, 199)',
