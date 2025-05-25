@@ -240,7 +240,6 @@ class FormService {
       static async setTitleForm(req: CustomRequest<{ form_id: Types.ObjectId; value: string, plaint_text: string }>, res: Response, next: NextFunction) {
             const { form_id, value, plaint_text } = req.body
             const { user } = req
-            console.log({ plaint_text })
             const { form } = await updateFormCommon({
                   form_id,
                   user_id: user?._id as Types.ObjectId,

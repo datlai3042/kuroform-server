@@ -186,7 +186,7 @@ export const formSchema = new Schema<FormSchemaDoc>(
                         form_avatar_default_mode: String,
 
                         input_color: String,
-                        input_size: { type: Number, max: 24 },
+                        input_size: { type: Number, max: 24, default:16 },
                         input_style: String
                   },
                   default: {

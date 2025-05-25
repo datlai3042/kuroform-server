@@ -102,7 +102,6 @@ class FormInputService {
             const { form_id } = req.body
             const newInput = await inputModel.create({ core: { setting: inputSettingText }, type: 'TEXT' })
             const { form } = await updateFormCommon({ form_id, user_id: user?._id as Types.ObjectId, update_query: { $push: { form_inputs: newInput } } })
-
             return { form }
       }
 
