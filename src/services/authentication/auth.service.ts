@@ -28,17 +28,16 @@ import { createPayload, fillDataKeyModel, generateCodeVerifyToken, generatePaidK
 type AuthParam = {
       user_email: string
       user_password: string
-      user_first_name: string
-      user_last_name: string
+    
 }
 
 class AuthService {
       static async register(req: CustomRequest<AuthParam>, res: Response, next: NextFunction) {
-            const { user_email, user_password, user_first_name, user_last_name } = req.body
+            const { user_email, user_password, } = req.body
 
-            if (!user_email || !user_password || !user_first_name || !user_last_name) throw new AuthFailedError({ metadata: 'Request thiếu các field bắt buốc' })
+            if (!user_email || !user_password ) throw new AuthFailedError({ metadata: 'Request thiếu các field bắt buốc' })
 
-            const { user } = await checkMailAndCreateUser({ user_email, user_first_name, user_last_name, user_password })
+            const { user } = await checkMailAndCreateUser({ user_email,  user_password })
             await createANotification({ user_id: user?._id, type: 'System', core: { message: 'Chào mừng bạn đến với Kuroform' } })
 
             const { access_token, code_verify_token, expireToken, refresh_token, expireCookie } = await handleKeyAndCookie({ user, res })

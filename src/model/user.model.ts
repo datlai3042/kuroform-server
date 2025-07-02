@@ -39,10 +39,10 @@ export const userSchema = new Schema<UserDocument>(
       {
             user_email: { type: String, required: true },
             user_password: { type: String, required: true },
-            user_first_name: { type: String, required: true },
+            user_first_name: { type: String,  default: '' },
             user_atlas: { type: String, required: true },
-            user_create_password: { type: Boolean, default: false },
-            user_last_name: { type: String, required: true },
+            user_create_password: { type: Boolean, default: false , },
+            user_last_name: { type: String,   default: '' },
             user_birthday: { type: Date },
             user_gender: { type: String, enum: ['MALE', 'FEMALE', 'OTHER'], default: 'MALE', required: true },
             user_roles: { type: String, enum: ['USER', 'ADMIN', 'GUEST'], default: 'USER', required: true },

@@ -78,13 +78,11 @@ export const checkDataUser = async ({ user_email, user_password }: { user_email:
 export const checkMailAndCreateUser = async ({
       user_email,
       user_password,
-      user_last_name,
-      user_first_name
+    
 }: {
       user_email: string
       user_password: string
-      user_last_name: string
-      user_first_name: string
+    
 }) => {
       const foundEmail = await userModel.findOne({ user_email })
       if (foundEmail) throw new AuthFailedError({ metadata: 'Email đã tồn tại' })
@@ -96,8 +94,7 @@ export const checkMailAndCreateUser = async ({
       const createUser = await userModel.create({
             user_email,
             user_password: hashPassword,
-            user_first_name,
-            user_last_name,
+           
             user_auth: 'email',
             user_password_state: true,
             user_atlas
