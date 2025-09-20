@@ -28,6 +28,12 @@ class AuthController {
       static async oAuthWithGithub(req: CustomRequest, res: Response, next: NextFunction) {
             return await AuthService.oAuthWithGithub(req, res, next)
       }
+
+      static async getUserRecentsInfo(req: CustomRequest<{ userRecents: string[] }>, res: Response, next: NextFunction) {
+            return new OK({ metadata: await AuthService.getUserRecentsInfo(req, res, next) }).send(res)
+
+
+      }
 }
 
 export default AuthController

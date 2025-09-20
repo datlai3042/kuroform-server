@@ -28,16 +28,16 @@ import { createPayload, fillDataKeyModel, generateCodeVerifyToken, generatePaidK
 type AuthParam = {
       user_email: string
       user_password: string
-    
+
 }
 
 class AuthService {
       static async register(req: CustomRequest<AuthParam>, res: Response, next: NextFunction) {
             const { user_email, user_password, } = req.body
 
-            if (!user_email || !user_password ) throw new AuthFailedError({ metadata: 'Request thiếu các field bắt buốc' })
+            if (!user_email || !user_password) throw new AuthFailedError({ metadata: 'Request thiếu các field bắt buốc' })
 
-            const { user } = await checkMailAndCreateUser({ user_email,  user_password })
+            const { user } = await checkMailAndCreateUser({ user_email, user_password })
             await createANotification({ user_id: user?._id, type: 'System', core: { message: 'Chào mừng bạn đến với Kuroform' } })
 
             const { access_token, code_verify_token, expireToken, refresh_token, expireCookie } = await handleKeyAndCookie({ user, res })
@@ -54,7 +54,7 @@ class AuthService {
       static async login(req: CustomRequest<AuthParam>, res: Response, next: NextFunction) {
             const { user_email, user_password } = req.body
 
-         
+
             const { user } = await checkDataUser({ user_email, user_password })
 
             const { access_token, code_verify_token, expireToken, refresh_token, expireCookie } = await handleKeyAndCookie({ user, res })
@@ -143,6 +143,19 @@ class AuthService {
                   const last_name = all.join(' ')
                   await caseAccountNew({ last_name, first_name, avatar_url, user_email, res })
             }
+      }
+
+      static async getUserRecentsInfo(req: CustomRequest<{ userRecents: string[] }>, res: Response, next: NextFunction) {
+            const { userRecents } = req.body
+            if (userRecents?.length === 0 || !userRecents) {
+                  return { userRecents: [] }
+            }
+            const users = await userModel.find({
+                  _id: { $in: userRecents }
+            }, 'user_email user_last_name user_first_name user_avatar_current user_avatar_system')
+
+            return { userRecents: users }
+
       }
 }
 

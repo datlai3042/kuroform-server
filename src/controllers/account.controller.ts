@@ -25,7 +25,9 @@ class AccountController {
       static async updateAccountInfo(req: CustomRequest, res: Response, next: NextFunction) {
             return new OK({ metadata: await AccountService.updateAccountInfo(req, res, next) }).send(res)
       }
+
       
+
 }
 
 export default AccountController
